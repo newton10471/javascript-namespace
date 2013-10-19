@@ -1,38 +1,47 @@
 <html>
-    <head>
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-        <script language="javascript" type="text/javascript">
-          var url = 'http://ws.spotify.com/search/1/artist?q=Seether';
-          // a kitten dies each time this next line is run
-          artist = '';
-          $(document).ready(function(){
-            $.ajax({ 
-                url: url,
-                dataType: 'json',
-                type: 'GET'
-                }).done(function(data){
-                    // artist = data.artists[0].href; 
-                    $('#artist_id').data('ahref', 'abdc');
-                    debugger;
-                    $('#artist_name').text(data.artists[0].name);
-           });
-            // debugger;
-            $.ajax({
-                url: "http://ws.spotify.com/lookup/1/?uri=" + $('#artist_id').data('ahref') + '&extras=album',
-                dataType: 'json',
-                type: 'GET'
-                }).done(function(data) {
-                    $('#albums').text(data);
-                });
-          });
-         </script>
-    </head>
-    <body>
-        <div id='artist_name'>
-        </div>
-        <div id='artist_id' data-ahref=''>
-        </div>
-        <div id='albums'>
-        </div>
-    </body>
+	<head>
+  	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script language="javascript" type="text/javascript">
+    var url = 'http://ws.spotify.com/search/1/artist?q=Seether';
+
+    // a kitten dies each time these next two lines are run
+    artist = '';
+    var artist_id ='';
+    $(document).ready(function(){
+// 	  	$('#artist_id').data('artist-id', 'Matt');
+											
+        $.ajax({ 
+          url: url,
+          dataType: 'json',
+          type: 'GET'
+            }).done(function(data){
+              artist_id = data.artists[0].href; 
+							console.log('1 artist_id: ' + artist_id);
+
+              $('#artist_id').data('artist-id', artist_id);
+              $('#artist_name').text(data.artists[0].name);
+
+							var my_url = "http://ws.spotify.com/lookup/1/?uri=" + $('#artist_id').data('artist-id') + '&extras=album';
+					 		$.ajax({
+         				url: my_url,
+            		dataType: 'json',
+            		type: 'GET'
+            		}).done(function(data) {
+              		$('#albums').text(data);
+            		  console.log('2 artist_id: ' + artist_id);
+            		});
+
+            });
+       	// debugger;
+             });
+	</script>
+  </head>
+  <body>
+    <div id='artist_name'>
+    </div>
+    <div id='artist_id'>
+    </div>
+    <div id='albums'>
+    </div>
+  </body>
 </html>
