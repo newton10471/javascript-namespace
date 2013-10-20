@@ -3,26 +3,37 @@
   	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script language="javascript" type="text/javascript">
     var artist_name = 'Jackson Browne';
-    var url = 'http://ws.spotify.com/search/1/artist?q=' + artist_name;
-
+    
     $(document).ready(function(){
-			promise = $.getJSON(url);
-			promise.then(function(message){
-			  var artist = message.artists[0];
-				$('#artist_name').text(artist.name);
-				$('#artist_id').text(artist.href);
-				return artist.href;
-			}).then(function(message) {
-				var albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message + '&extras=album');
-				return albums;
-			}).then(function(message) {
-				$('#albums').text(message.artist.albums[0].album.name);
+      $("#search_button").click(function() {
+        artist_name = $("input:text").val();
+
+				var url = 'http://ws.spotify.com/search/1/artist?q=' + artist_name;
+
+				promise = $.getJSON(url);
+				promise.then(function(message){
+					var artist = message.artists[0];
+					$('#artist_name').text(artist.name);
+					$('#artist_id').text(artist.href);
+					return artist.href;
+				}).then(function(message) {
+					var albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message + '&extras=album');
+					return albums;
+				}).then(function(message) {
+					$('#albums').text(message.artist.albums[0].album.name);
+				});
+
 			});
 				
   	});
 		</script>
   </head>
   <body>
+  	Artist name: <input type="text"><br>
+  	<div id="search_button" style="color:red">
+  		Search
+  	</div>
+  	</br>
     <div id='artist_name'>
     </div>
     <div id='artist_id'>
