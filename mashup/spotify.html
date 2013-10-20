@@ -5,15 +5,27 @@
     var url = 'http://ws.spotify.com/search/1/artist?q=Seether';
 
     // could try all this with getJSON instead
-    var albums = {};
+    // var albums = {};
     $(document).ready(function(){
 			promise = $.getJSON(url);
 			promise.then(function(message){
-				console.log('artist: ' + message.artists[0].href);
-				$('#artist_name').text(message.artists[0].name);
-				$('#artist_id').text(message.artists[0].href);
-				albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message.artists[0].href + '&extras=album');
+			  var artist = message.artists[0];
+				$('#artist_name').text(artist.name);
+				$('#artist_id').text(artist.href);
+				return artist.href;
+//				albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message.artists[0].href + '&extras=album');
+			}).then(function(message) {
+				var albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message + '&extras=album');
+//				console.log("message: " + message);
+				return albums;
+
+				// $('#albums').text(message);
+			}).then(function(message) {
+				console.log("message: " + message);
+
+				$('#albums').text(message.artist.albums[0].album.name);
 			});
+				
   	});
 		</script>
   </head>
