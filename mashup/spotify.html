@@ -2,7 +2,7 @@
 	<head>
   	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script language="javascript" type="text/javascript">
-    var artist_name = 'Jackson Browne';
+    var artist_name = '';
     
     $(document).ready(function(){
       $("#search_button").click(function() {
@@ -20,7 +20,17 @@
 					var albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message + '&extras=album');
 					return albums;
 				}).then(function(message) {
-					$('#albums').text(message.artist.albums[0].album.name);
+						var albums = message.artist.albums;
+						var album_list = $('ul#album_list');
+						var album_elements = [];
+						$.each(albums, function(i) {
+							var li = $('<li/>').text(albums[i].album.name);
+							album_elements[i] = li;
+
+						});
+						album_elements = $.unique(album_elements);
+						console.log(album_elements);
+						album_list.append(album_elements);
 				});
 
 			});
@@ -38,7 +48,7 @@
     </div>
     <div id='artist_id'>
     </div>
-    <div id='albums'>
-    </div>
+    <ul id='album_list'>
+    </ul>
   </body>
 </html>
