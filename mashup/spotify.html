@@ -5,44 +5,17 @@
     var url = 'http://ws.spotify.com/search/1/artist?q=Seether';
 
     // could try all this with getJSON instead
-    // a kitten dies each time these next two lines are run
-    artist = '';
-    var artist_id ='';
     var albums = {};
     $(document).ready(function(){
-// 	  	$('#artist_id').data('artist-id', 'Matt');
-				
-				promise = $.getJSON(url);
-				promise.then(function(message){
-					console.log('artist: ' + message.artists[0].href);
-					albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message.artists[0].href + '&extras=album');
-				});
-											
-        $.ajax({ 
-          url: url,
-          dataType: 'json',
-          type: 'GET'
-            }).done(function(data){
-              artist_id = data.artists[0].href; 
-							console.log('1 artist_id: ' + artist_id);
-
-              $('#artist_id').data('artist-id', artist_id);
-              $('#artist_name').text(data.artists[0].name);
-
-							var my_url = "http://ws.spotify.com/lookup/1/?uri=" + $('#artist_id').data('artist-id') + '&extras=album';
-					 		$.ajax({
-         				url: my_url,
-            		dataType: 'json',
-            		type: 'GET'
-            		}).done(function(data) {
-              		$('#albums').text(data);
-            		  console.log('2 artist_id: ' + artist_id);
-            		});
-
-            });
-       	// debugger;
-             });
-	</script>
+			promise = $.getJSON(url);
+			promise.then(function(message){
+				console.log('artist: ' + message.artists[0].href);
+				$('#artist_name').text(message.artists[0].name);
+				$('#artist_id').text(message.artists[0].href);
+				albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message.artists[0].href + '&extras=album');
+			});
+  	});
+		</script>
   </head>
   <body>
     <div id='artist_name'>
