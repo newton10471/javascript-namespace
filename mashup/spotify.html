@@ -2,10 +2,9 @@
 	<head>
   	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script language="javascript" type="text/javascript">
-    var url = 'http://ws.spotify.com/search/1/artist?q=Seether';
+    var artist_name = 'Jackson Browne';
+    var url = 'http://ws.spotify.com/search/1/artist?q=' + artist_name;
 
-    // could try all this with getJSON instead
-    // var albums = {};
     $(document).ready(function(){
 			promise = $.getJSON(url);
 			promise.then(function(message){
@@ -13,16 +12,10 @@
 				$('#artist_name').text(artist.name);
 				$('#artist_id').text(artist.href);
 				return artist.href;
-//				albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message.artists[0].href + '&extras=album');
 			}).then(function(message) {
 				var albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message + '&extras=album');
-//				console.log("message: " + message);
 				return albums;
-
-				// $('#albums').text(message);
 			}).then(function(message) {
-				console.log("message: " + message);
-
 				$('#albums').text(message.artist.albums[0].album.name);
 			});
 				
