@@ -4,11 +4,19 @@
     <script language="javascript" type="text/javascript">
     var url = 'http://ws.spotify.com/search/1/artist?q=Seether';
 
+    // could try all this with getJSON instead
     // a kitten dies each time these next two lines are run
     artist = '';
     var artist_id ='';
+    var albums = {};
     $(document).ready(function(){
 // 	  	$('#artist_id').data('artist-id', 'Matt');
+				
+				promise = $.getJSON(url);
+				promise.then(function(message){
+					console.log('artist: ' + message.artists[0].href);
+					albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message.artists[0].href + '&extras=album');
+				});
 											
         $.ajax({ 
           url: url,
