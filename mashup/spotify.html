@@ -7,30 +7,29 @@
     $(document).ready(function(){
       $("#search_button").click(function() {
         artist_name = $("input:text").val();
-
 				var url = 'http://ws.spotify.com/search/1/artist?q=' + artist_name;
 
 				promise = $.getJSON(url);
 				promise.then(function(message){
 					var artist = message.artists[0];
-					$('#artist_name').text(artist.name);
-					$('#artist_id').text(artist.href);
+					$('#artist_name').text("Artist: " + artist.name);
+					$('#artist_id').text("Spotify ID: " + artist.href);
 					return artist.href;
 				}).then(function(message) {
 					var albums = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + message + '&extras=album');
 					return albums;
 				}).then(function(message) {
-						var albums = message.artist.albums;
-						var album_list = $('ul#album_list');
-						var album_elements = [];
-						$.each(albums, function(i) {
-							var li = $('<li/>').text(albums[i].album.name);
-							album_elements[i] = li;
+					var albums = message.artist.albums;
+					var album_list = $('ul#album_list');
+					var album_elements = [];
+					$('ul#album_list li').remove();
+					$.each(albums, function(i) {
+						var li = $('<li/>').text(albums[i].album.name);
+						album_elements[i] = li;
 
-						});
-						album_elements = $.unique(album_elements);
-						console.log(album_elements);
-						album_list.append(album_elements);
+					});
+					album_elements = $.unique(album_elements);
+					album_list.append(album_elements);
 				});
 
 			});
@@ -40,9 +39,7 @@
   </head>
   <body>
   	Artist name: <input type="text"><br>
-  	<div id="search_button" style="color:red">
-  		Search
-  	</div>
+  	<button id="search_button">Search</button>
   	</br>
     <div id='artist_name'>
     </div>
