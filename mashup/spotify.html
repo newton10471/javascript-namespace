@@ -34,7 +34,21 @@
 					album_list.append(album_elements);
 
 					$("li").click(function(){
-						alert('clicked' + $(this).attr(id) );
+						// alert('clicked' + $(this).attr('id'));
+                        var tracks = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + $(this).attr('id') + '&extras=track');
+                        // alert(tracks.album.tracks[].name)
+                        var track_text = "";
+                        tracks.then(function(msg) {
+                            var new_tracks = msg.album.tracks;
+                            var track_elements = [];
+                            $.each(new_tracks, function(i) {
+                                //debugger
+                                //var li = $('<li/>').text(new_tracks[i].name);
+                                //    track_elements[i] = li;
+                                track_text = track_text + new_tracks[i].name + '\n';
+                            });
+                            alert("<ul>" + track_text + "</ul>");
+                         });
 					});
 
 				});
