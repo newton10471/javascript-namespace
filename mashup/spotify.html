@@ -5,7 +5,6 @@
     var artist_name = '';
     
     $(document).ready(function(){
-
       $("#search_button").click(function() {
         artist_name = $("input:text").val();
 				var url = 'http://ws.spotify.com/search/1/artist?q=' + artist_name;
@@ -28,39 +27,24 @@
                     var li = $('<li/>').text(albums[i].album.name).attr('id', albums[i].album.href);
 						album_elements[i] = li;
 
-
 					});
 					album_elements = $.unique(album_elements);
 					album_list.append(album_elements);
 
 					$("li").click(function(){
-						// alert('clicked' + $(this).attr('id'));
-                        var tracks = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + $(this).attr('id') + '&extras=track');
-                        // alert(tracks.album.tracks[].name)
-                        var track_text = "";
-                        tracks.then(function(msg) {
-                            var new_tracks = msg.album.tracks;
-                            var track_elements = [];
-                            $.each(new_tracks, function(i) {
-                                //debugger
-                                //var li = $('<li/>').text(new_tracks[i].name);
-                                //    track_elements[i] = li;
-                                track_text = track_text + new_tracks[i].name + '\n';
-                            });
-                            alert("<ul>" + track_text + "</ul>");
-                         });
+						var tracks = $.getJSON("http://ws.spotify.com/lookup/1/?uri=" + $(this).attr('id') + '&extras=track');
+						var track_text = "";
+						tracks.then(function(msg) {
+								var new_tracks = msg.album.tracks;
+								var track_elements = [];
+								$.each(new_tracks, function(i) {
+										track_text = track_text + new_tracks[i].name + '\n';
+								});
+								confirm("TRACKS ON THIS ALBUM:\n" + track_text);
+						});
 					});
-
 				});
-
-
 			});
-				
-      //        	console.log(this);
-//            console.log($(this).attr('id'));
- //           var url = 'http://ws.spotify.com/lookup/1/?uri=' + $(this).attr('id') + '&extras=track';
-            //$.getJSON('')
-//        });
   	});
 		</script>
   </head>
