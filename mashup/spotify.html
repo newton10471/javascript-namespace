@@ -2,6 +2,16 @@
 	<head>
   	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script language="javascript" type="text/javascript">
+
+    // =====
+    // No frills, single page JavaScript app to browse the Spotify inventory without a subscription.  
+    // Type an artist/group's name in the Arist Name field and press the Search button, and
+    // you'll get a list of that artist's albums available on Spotify.  Click on the album 
+    // name to get a popup of tracks from the album.
+    //
+    // 10/31/2013 Matt Newton and Kun Lu
+    // =====
+
     var artist_name = '';
     
     $(document).ready(function(){
@@ -24,9 +34,8 @@
 					var album_elements = [];
 					$('ul#album_list li').remove();
 					$.each(albums, function(i) {
-                    var li = $('<li/>').text(albums[i].album.name).attr('id', albums[i].album.href);
+            var li = $('<li/>').text(albums[i].album.name).attr('id', albums[i].album.href);
 						album_elements[i] = li;
-
 					});
 					album_elements = $.unique(album_elements);
 					album_list.append(album_elements);
@@ -46,6 +55,7 @@
 				});
 			});
   	});
+
 		</script>
   </head>
   <body>
